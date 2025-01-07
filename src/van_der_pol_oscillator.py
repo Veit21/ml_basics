@@ -9,7 +9,7 @@ def runge_kutta(function, t_0, x_0, y_0, d_h, t_end=T_END):
     """Runge-Kutta 4 method to integrate an ODE.
 
     Args:
-        function (_type_): _description_
+        function (function): Lambda function to be evaluated each step dt. The lambda function represents the ODE to be integrated.
         t_0 (float): Starting time. Lower bound of integration.
         d_h (float): Integration interval. Step width.
         t_end (float, optional): End time. Upper bound of integration. Defaults to T_END.
@@ -39,7 +39,7 @@ def runge_kutta(function, t_0, x_0, y_0, d_h, t_end=T_END):
         k_y_array = np.array([k1_y, k2_y, k3_y, k4_y])
         weights = np.array([1/6, 1/3, 1/3, 1/6])
         x += d_h * np.dot(weights, k_x_array)
-        y += d_h + np.dot(weights, k_y_array)
+        y += d_h * np.dot(weights, k_y_array)
         x_approx.append(x)
         y_approx.append(y)
 
@@ -82,7 +82,7 @@ if __name__ == '__main__':
 
     X, Y = np.meshgrid(x_coord, y_coord)
     grad_x, grad_y = vdp_prime(X, Y, mu=_mu_0)
-    vec_color = np.sqrt(np.square(grad_y) + np.square(grad_y))
+    vec_color = np.sqrt(np.square(grad_x) + np.square(grad_y))
 
     # Plot dynamics in phase space
     fig = plt.figure(figsize=(10, 10))
